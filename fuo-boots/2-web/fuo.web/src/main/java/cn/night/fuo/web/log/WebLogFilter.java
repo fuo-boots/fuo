@@ -1,7 +1,5 @@
 package cn.night.fuo.web.log;
 
-import cn.night.fuo.core.conf.ConfConstants;
-import cn.night.fuo.web.WebConf;
 import cn.night.fuo.web.log.decorators.HttpServletRequestLogDecorator;
 import cn.night.fuo.web.log.decorators.HttpServletResponseDecorator;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -27,37 +26,29 @@ import java.util.List;
 public class WebLogFilter extends OncePerRequestFilter implements Ordered {
     private int order = Ordered.LOWEST_PRECEDENCE - 8;
 
-    public static final String SPLIT_STRING_M = "=";
-
-    public static final String SPLIT_STRING_DOT = ", ";
-
     @Autowired
-    private WebConf webConf;
+    private WebLogEnvironment webLogEnvironment;
 
     @Override
     public int getOrder() {
         return order;
     }
 
-    private boolean isDoLog(HttpServletRequest request) {
-        WebLogConf conf = webConf.getLog();
-        if (conf.getMethodFilters().contains(ConfConstants.ANY)) {
+    private boolean checkLogRequest(HttpServletRequest request) {
+        if (!this.webLogEnvironment.getEnabled()) return false;
+        if (this.webLogEnvironment.getIsMethodAllowAll()) return true;
+        if (this.webLogEnvironment.getMethodFilters().contains(request.getMethod())) {
             return true;
-        } else {
-            if (conf.getMethodFilters().contains(request.getMethod())) {
-                return true;
-            }
         }
         return false;
     }
 
     private void logRequest(HttpServletRequest request, StringBuilder textBuilder) {
-        WebLogConf conf = webConf.getLog();
 
         HttpServletRequestLogDecorator requestLogDecorator = new HttpServletRequestLogDecorator(request);
         textBuilder.setLength(0);
         textBuilder.append(request.getRequestURI()).append(" received web-request:");
-        List<String> includes = conf.getIncludeInfos();
+        HashSet<String> includes = webLogEnvironment.getIncludeInfos();
         if (includes.contains(WebLogConf.WebLogIncludeInfoName.REQUEST_URI)) {
             textBuilder.append("uri:").append(requestLogDecorator.getUri()).append(",");
         }
@@ -80,8 +71,7 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
     }
 
     private void logResponse(HttpServletRequest request, HttpServletResponse response, ContentCachingResponseWrapper wrapperResponse, StringBuilder textBuilder) {
-        WebLogConf conf = webConf.getLog();
-        List<String> includes = conf.getIncludeInfos();
+        HashSet<String> includes = webLogEnvironment.getIncludeInfos();
         if (includes.contains(WebLogConf.WebLogIncludeInfoName.RESPONSE_BODY)) {
             textBuilder.setLength(0);
             textBuilder.append(request.getRequestURI()).append(" send web-response:");
@@ -98,10 +88,11 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         ContentCachingRequestWrapper wrapperRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrapperResponse = new ContentCachingResponseWrapper(response);
 
-        WebLogConf conf = webConf.getLog();
+        Boolean isWriteWebLog = checkLogRequest(request);
+
         StringBuilder textBuilder = new StringBuilder(200);
         try {
-            if (conf.getEnabled() && isDoLog(request)) {
+            if (isWriteWebLog) {
                 logRequest(request, textBuilder);
             }
         } catch (Exception e) {
@@ -115,7 +106,7 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         }
 
         try {
-            if (conf.getEnabled() && isDoLog(request)) {
+            if (isWriteWebLog) {
                 logResponse(request, response, wrapperResponse, textBuilder);
             }
         } catch (Exception e) {
@@ -123,48 +114,5 @@ public class WebLogFilter extends OncePerRequestFilter implements Ordered {
         }
 
         wrapperResponse.copyBodyToResponse();
-    }
-
-    /**
-     * 打印请求参数
-     *
-     * @param request
-     */
-    private String getRequestBody(ContentCachingRequestWrapper request) {
-        ContentCachingRequestWrapper wrapper = WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
-        if (wrapper != null) {
-            byte[] buf = wrapper.getContentAsByteArray();
-            if (buf.length > 0) {
-                String payload;
-                try {
-                    payload = new String(buf, 0, buf.length, wrapper.getCharacterEncoding());
-                } catch (UnsupportedEncodingException e) {
-                    payload = "[unknown]";
-                }
-                return payload.replaceAll("\\n", "");
-            }
-        }
-        return "";
-    }
-
-
-    /**
-     * 获取请求地址上的参数
-     *
-     * @param request
-     * @return
-     */
-    public static String getRequestParams(HttpServletRequest request) {
-        StringBuilder sb = new StringBuilder();
-        Enumeration<String> enu = request.getParameterNames();
-        //获取请求参数
-        while (enu.hasMoreElements()) {
-            String name = enu.nextElement();
-            sb.append(name + SPLIT_STRING_M).append(request.getParameter(name));
-            if (enu.hasMoreElements()) {
-                sb.append(SPLIT_STRING_DOT);
-            }
-        }
-        return sb.toString();
     }
 }

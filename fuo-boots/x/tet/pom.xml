@@ -10,7 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fuo.web</artifactId>
+    <artifactId>tet</artifactId>
+
 
     <dependencies>
         <dependency>
@@ -34,7 +35,4 @@
             </exclusions>
         </dependency>
     </dependencies>
-
-
-
 </project>

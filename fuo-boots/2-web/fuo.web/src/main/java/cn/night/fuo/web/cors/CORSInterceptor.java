@@ -1,6 +1,6 @@
 package cn.night.fuo.web.cors;
 
-import cn.night.fuo.web.WebConf;
+import cn.night.fuo.utils.Utils;
 import cn.night.fuo.web.core.mvc.IFuoMvcInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,29 +17,24 @@ import javax.servlet.http.HttpServletResponse;
 public class CORSInterceptor implements IFuoMvcInterceptor {
 
     @Autowired
-    private WebConf conf;
+    private CorsEnvironment corsEnvironment;
 
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        CORSConf cors = conf.getCors();
-        if (cors.getEnable()) {
+        if (corsEnvironment.getEnable()) {
             try {
                 String postOrigin = request.getHeader("Origin");
-                String postOriginDomain = FuoStringUtils.getDomain(postOrigin);
-                if (!StringUtils.isEmpty(postOriginDomain)) {
-                    if (conf.getCors().getOrigins().contains(postOriginDomain.toLowerCase())) {
-                        response.setHeader("Access-Control-Allow-Origin", postOrigin);
-                        //todo fix methded format
-                        response.setHeader("Access-Control-Allow-Methods", cors.getMethods().toString());
-                        response.setHeader("Access-Control-Max-Age", cors.getAge().toString());
-                        response.setHeader("Access-Control-Allow-Credentials", cors.getCredentials().toString());
-                        response.setHeader("Access-Control-Allow-Headers",
-                                "Origin, X-Requested-With, Content-Type, Accept");
-                    }
+                String postOriginDomain = Utils.web.getDomain(postOrigin);
+                if (!StringUtils.isEmpty(postOriginDomain) && corsEnvironment.getOrigins().contains(postOriginDomain.toLowerCase())) {
+                    response.setHeader("Access-Control-Allow-Origin", postOrigin);
+                    response.setHeader("Access-Control-Allow-Methods", corsEnvironment.getAllowMethod());
+                    response.setHeader("Access-Control-Max-Age", corsEnvironment.getMaxAge());
+                    response.setHeader("Access-Control-Allow-Credentials", corsEnvironment.getAllowCredentials());
+                    response.setHeader("Access-Control-Allow-Headers", corsEnvironment.getAllowHeaders());
                 }
             } catch (Exception e) {
-                log.error("CORSInterceptor: preHandle 异常",e);
+                log.error("CORSInterceptor: preHandle 异常", e);
             }
         }
 

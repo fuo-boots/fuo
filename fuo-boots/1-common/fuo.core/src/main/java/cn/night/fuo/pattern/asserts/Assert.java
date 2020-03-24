@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 
 public class Assert {
-    @SneakyThrows
     public static <T> T notNull(@Nullable T value, String msg) {
         if (value == null) throw new FuoIllegalArgumenRuntimetException(msg);
         return value;

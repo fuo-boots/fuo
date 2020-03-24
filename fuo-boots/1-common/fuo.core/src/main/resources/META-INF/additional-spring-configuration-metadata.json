@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "fuo.serialize",
+    "description": "fuo序列化相关设置"
+  },
+  {
+    "name": "fuo.serialize.json",
+    "description": "fuo-json序列化相关设置"
+  },
+  {
+    "name": "fuo.serialize.writeMapNullValue",
+    "description": "fuo-json序列化输出时,是否输出值为null的字段,默认为false"
+  },
+  {
+    "name": "fuo.serialize.writeNullStringAsEmpty",
+    "description": "fuo-json序列化输出时,字符类型字段如果为null,输出为\"\",而非null,默认为false"
+  },
+  {
+    "name": "fuo.serialize.writeNullNumberAsZero",
+    "description": "fuo-json序列化输出时,数值字段如果为null,输出为0,而非null,默认为false"
+  },
+  {
+    "name": "fuo.serialize.json.formats",
+    "description": "fuo-json序列化输出时,自定义格式化输出"
+  }
+]}
+
