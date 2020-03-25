@@ -11,7 +11,9 @@
     <modules>
         <module>1-common/fuo.core</module>
         <module>2-web/fuo.web</module>
-        <module>x/tet</module>
+        <module>3-data/fuo.data</module>
+        <module>3-data/fuo.data.jdbc</module>
+        <module>3-data/fuo.data.mongdb</module>
     </modules>
 
 
@@ -47,6 +49,16 @@
                 <artifactId>spring-boot-autoconfigure</artifactId>
                 <version>${spring.boot.version}</version>
                 <optional>true</optional>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                <version>${spring.boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

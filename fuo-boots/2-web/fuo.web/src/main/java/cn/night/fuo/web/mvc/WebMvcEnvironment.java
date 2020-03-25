@@ -24,12 +24,17 @@ public class WebMvcEnvironment implements FuoEnvironmentBuilder {
     public void doBuild() throws FuoEnvironmentInitializeFailedException {
         log.debug(" Fuo-WebMvcEnvironment start");
         for (InterceptorConf interceptorConf : conf.getMvc().getInterceptors()) {
-            log.debug(interceptorConf.getName() + " register begin");
+            log.debug(interceptorConf.getName() + " build begin");
             HandlerInterceptor interceptor = SpringContextHolder.getBeanByClazz(interceptorConf.getInterceptor());
-            InterceptorRegistration interceptorRegistration = registry.addInterceptor(interceptor);
-            interceptorRegistration.addPathPatterns(interceptorConf.getPath());
-            interceptorRegistration.excludePathPatterns(interceptorConf.getExcludes());
-            log.debug(interceptorConf.getName() + " registered success");
+            if(interceptor == null){
+                throw new FuoEnvironmentInitializeFailedException("Fuo-web-Mvc" + interceptorConf.getName() + " getBean is null" );
+            }
+            FuoWebHandlerInterceptor fuoWebHandlerInterceptor = new FuoWebHandlerInterceptor();
+            fuoWebHandlerInterceptor.setExcludes(interceptorConf.getExcludes());
+            fuoWebHandlerInterceptor.setPath(interceptorConf.getPath());
+            fuoWebHandlerInterceptor.setInterceptor(interceptor);
+            this.handlerInterceptors.add(fuoWebHandlerInterceptor);
+            log.debug(interceptorConf.getName() + " build success");
         }
         log.debug(" Fuo-WebMvcEnvironment success");
     }

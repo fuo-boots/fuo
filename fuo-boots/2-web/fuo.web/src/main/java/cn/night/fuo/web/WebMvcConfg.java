@@ -5,6 +5,7 @@ import cn.night.fuo.serializer.SerializerEnvironment;
 import cn.night.fuo.spring.SpringContextHolder;
 import cn.night.fuo.web.mvc.InterceptorConf;
 import cn.night.fuo.web.mvc.MvcConf;
+import cn.night.fuo.web.mvc.WebMvcEnvironment;
 import cn.night.fuo.web.serializer.WebSerializerEnvironment;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
@@ -29,6 +30,9 @@ public class WebMvcConfg implements WebMvcConfigurer {
     @Autowired
     private WebSerializerEnvironment webSerializerEnvironment;
 
+    @Autowired
+    private WebMvcEnvironment webMvcEnvironment;
+
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         if (webSerializerEnvironment.getUseFuoJsonConfig()) {
@@ -45,16 +49,12 @@ public class WebMvcConfg implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
-        MvcConf mvcConf = conf.getMvc();
-
-        for (InterceptorConf interceptorConf : mvcConf.getInterceptors()) {
-            log.debug(interceptorConf.getName() + " register begin");
-            HandlerInterceptor interceptor = SpringContextHolder.getBeanByClazz(interceptorConf.getInterceptor());
-            InterceptorRegistration interceptorRegistration = registry.addInterceptor(interceptor);
-            interceptorRegistration.addPathPatterns(interceptorConf.getPath());
-            interceptorRegistration.excludePathPatterns(interceptorConf.getExcludes());
-            log.debug(interceptorConf.getName() + " registered success");
-        }
+        webMvcEnvironment.getHandlerInterceptors().forEach(interceptor->{
+            log.debug(interceptor.getName() + " register begin");
+            InterceptorRegistration interceptorRegistration = registry.addInterceptor(interceptor.getInterceptor());
+            interceptorRegistration.addPathPatterns(interceptor.getPath());
+            interceptorRegistration.excludePathPatterns(interceptor.getExcludes());
+            log.debug(interceptor.getName() + " register end");
+        });
     }
 }

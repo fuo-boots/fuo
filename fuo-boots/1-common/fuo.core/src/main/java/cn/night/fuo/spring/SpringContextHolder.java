@@ -12,6 +12,7 @@ public class SpringContextHolder implements ApplicationContextInitializer {
     }
 
     public static ApplicationContext getApplicationContext() {
+//applicationContext.getAutowireCapableBeanFactory().configureBean()
         assertApplicationContext();
         return applicationContext;
     }
