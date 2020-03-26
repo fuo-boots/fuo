@@ -8,5 +8,40 @@
     <artifactId>fuo-quick-start</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <fuo.version>0.0.1-SNAPSHOT</fuo.version>
+        <spring.boot.version>2.0.0.RELEASE</spring.boot.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.night</groupId>
+            <artifactId>fuo.core</artifactId>
+            <version>${fuo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.night</groupId>
+            <artifactId>fuo.data.jdbc</artifactId>
+            <version>${fuo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.48</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

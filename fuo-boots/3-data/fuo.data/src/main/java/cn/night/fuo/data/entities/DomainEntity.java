@@ -14,9 +14,11 @@ public abstract class DomainEntity {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="create_time")
     private Date createTime;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name="modify_time")
     private Date modifyTime;
 
     private String creator;

@@ -2,6 +2,7 @@ package cn.night.fuo;
 
 import cn.night.fuo.exception.check.FuoEnvironmentInitializeFailedException;
 import cn.night.fuo.pattern.asserts.Assert;
+import cn.night.fuo.spring.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class FuoStarter {
         try {
             log.debug("fuo environment initialize starting");
             Assert.notNull(this.conf, " FuoConf Ioc failed");
-            Assert.notNull(this.log, " FuoLog Ioc failed");
             FuoEnvironment environment = new FuoEnvironment();
             environment.build();
             log.debug("fuo environment initialize success");
