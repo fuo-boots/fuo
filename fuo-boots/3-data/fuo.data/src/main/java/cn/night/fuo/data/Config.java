@@ -1,5 +1,7 @@
 package cn.night.fuo.data;
 
+import cn.night.fuo.spring.SpringContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -22,11 +24,18 @@ import java.util.Properties;
 @Configuration
 //@EnableJpaRepositories(considerNestedRepositories = false,
 //        entityManagerFactoryRef = "entityManagerFactory",
-//        transactionManagerRef="transactionManager",
-//        basePackages = {"cn.night.project"})
+//        transactionManagerRef="transactionManager")
+@EnableJpaRepositories(considerNestedRepositories = false,
+        entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef="transactionManager",
+        basePackages = {"cn.night.project"}) //.project.fuo.quickstart.jdbc.main
+
+
 //@EnableTransactionManagement
 public class Config {
-    @Bean
+    @Autowired
+    private DataEnvironment dataEnvironment;
+    @Bean(value = "mainDataSource")
 //    @Primary
     DataSource dataSource() {
 //        DataSourceProperties dataSourceProperties = new DataSourceProperties();
@@ -53,7 +62,8 @@ public class Config {
 
     @Bean(name="entityManagerFactory")
 //    @Primary
-    LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        DataSource dataSource = SpringContextHolder.getBean("mainDataSource");
 
         final Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
@@ -65,7 +75,7 @@ public class Config {
 //        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factoryBean.setJpaProperties(hibernateProperties);
-        factoryBean.setPackagesToScan("cn.night","cn.night.project.fuo.test.data.jdbc","cn.night.fuo.data.entities");
+        factoryBean.setPackagesToScan("cn.night.project");
 
 //        Properties properties = new Properties();
 //        properties.setProperty("hibernate.hbm2ddl.auto", "create");

@@ -7,6 +7,8 @@ import com.zaxxer.hikari.HikariConfig;
 import lombok.Getter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -25,34 +27,41 @@ public class DataEnvironment implements FuoEnvironmentBuilder {
 
 //    private List<PlatformTransactionManager> dataSources = new ArrayList<>();
 
+
+
     @Override
     public void doBuild() throws FuoEnvironmentInitializeFailedException {
 
+//        new EmbeddedDatabaseBuilder() //
+//                .generateUniqueName(true) //
+//                .setType(EmbeddedDatabaseType.HSQL) //
+//                .setScriptEncoding("UTF-8") //
+//                .ignoreFailedDrops(true) //
+//                .build();
+
 //        String name = "main";
 //
-//        DataSource dataSource = DataSourceBuilder.create()
-//                .driverClassName("com.mysql.jdbc.Driver")
-//                .url("jdbc:mysql://localhost:3306/fuo_test_main")
-//                .username("root")
-//                .password("12abAB")
-//                .build();
-////        SpringContextHolder.getApplicationContext().getAutowireCapableBeanFactory()
-////                .configureBean(dataSource,name+"DataSource");
-//
-//
-//
-//        final Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto","update");
-//        hibernateProperties.setProperty("hibernate.show-sql","true");
-//
-//        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-//        factoryBean.setDataSource(dataSource);
-////        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
-//        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//        factoryBean.setJpaProperties(hibernateProperties);
-//        factoryBean.setPackagesToScan("cn.night","cn.night.project.fuo.test.data.jdbc","cn.night.fuo.data.entities");
-//
+        DataSource dataSource = DataSourceBuilder.create()
+                .driverClassName("com.mysql.jdbc.Driver")
+                .url("jdbc:mysql://localhost:3306/fuo_test_slave")
+                .username("root")
+                .password("12abAB")
+                .build();
+
+
+
+        final Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto","update");
+        hibernateProperties.setProperty("hibernate.show-sql","true");
+
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSource);
+//        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
+        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        factoryBean.setJpaProperties(hibernateProperties);
+        factoryBean.setPackagesToScan("cn.night.project.fuo.quickstart.jdbc.slave");
+
 //        SpringContextHolder.getApplicationContext().getAutowireCapableBeanFactory()
 //                .autowireBean(factoryBean);
 //                //.configureBean(factoryBean,name+"FactoryBean");

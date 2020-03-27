@@ -31,7 +31,7 @@ import java.util.Date;
 @EnableTransactionManagement
 @SpringBootTest(classes = {JdbcTest.class})
 @ComponentScan(basePackages = {"cn.night.*"})
-@EntityScan(basePackages = "cn.night")
+@EntityScan(basePackages = "cn.night.project")
 @EnableJpaRepositories(considerNestedRepositories = false,
         basePackages = {"cn.night.project"})
 public class JdbcTest {
