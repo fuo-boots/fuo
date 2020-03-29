@@ -18,7 +18,7 @@ public class FuoStarter {
     @Autowired
     private FuoConf conf;
 
-//    @ConditionalOnMissingBean(name = "fuo.FuoEnvironment")
+    @ConditionalOnMissingBean(name = "fuo.FuoEnvironment")
     @Bean(value = "fuo.FuoEnvironment")
     public FuoEnvironment getBean() throws FuoEnvironmentInitializeFailedException {
         try {

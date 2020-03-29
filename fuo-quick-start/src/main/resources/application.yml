@@ -6,7 +6,12 @@ fuo:
           format: cn.night.fuo.serializer.json.serializer.format.date.DateFormatSerializer_yyyyMMddHHmmss
         - target: java.math.BigDecimal
           format: cn.night.fuo.serializer.json.serializer.format.decimal.DecimalFormatSerializer_Down2
-
+  jdbc:
+    datasource:
+      - default:
+          name: 123
+      - sla:
+          name: 123456
 #spring:
 #  datasource:
 #    driver-class-name: com.mysql.jdbc.Driver

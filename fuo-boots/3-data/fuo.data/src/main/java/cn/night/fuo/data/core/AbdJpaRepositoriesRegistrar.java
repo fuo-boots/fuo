@@ -1,5 +1,6 @@
 package cn.night.fuo.data.core;
 
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.jpa.repository.config.JpaRepositoryConfigExtension;
 import org.springframework.data.repository.config.RepositoryConfigurationExtension;
 
@@ -14,6 +15,7 @@ public class AbdJpaRepositoriesRegistrar extends AbdRepositoryBeanDefinitionRegi
     @Override
     protected Class<? extends Annotation> getAnnotation() {
         return AbdEnableJpaRepositories.class;
+       // return EnableJpaRepositories.class;
     }
 
     /*

@@ -48,22 +48,31 @@ public class DataEnvironment implements FuoEnvironmentBuilder {
                 .password("12abAB")
                 .build();
 
-
-
-        final Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto","update");
-        hibernateProperties.setProperty("hibernate.show-sql","true");
-
-        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(dataSource);
-//        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
-        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        factoryBean.setJpaProperties(hibernateProperties);
-        factoryBean.setPackagesToScan("cn.night.project.fuo.quickstart.jdbc.slave");
-
+        SpringContextHolder.getApplicationContext().getAutowireCapableBeanFactory()
+                .autowireBean(dataSource);
+//
+//        final Properties hibernateProperties = new Properties();
+//        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto","update");
+//        hibernateProperties.setProperty("hibernate.show-sql","true");
+//
+//        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+//        factoryBean.setDataSource(dataSource);
+////        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
+//        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//        factoryBean.setJpaProperties(hibernateProperties);
+//        factoryBean.setPackagesToScan("cn.night.project.fuo.quickstart.jdbc.entities",
+//                "cn.night.project.fuo.quickstart.jdbc.slave");
+//
 //        SpringContextHolder.getApplicationContext().getAutowireCapableBeanFactory()
 //                .autowireBean(factoryBean);
+
+
+
+
+
+
+
 //                //.configureBean(factoryBean,name+"FactoryBean");
 
 //        SpringContextHolder.getApplicationContext().getAutowireCapableBeanFactory()

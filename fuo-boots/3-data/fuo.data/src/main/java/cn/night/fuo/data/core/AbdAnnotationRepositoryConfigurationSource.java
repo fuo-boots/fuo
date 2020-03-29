@@ -23,7 +23,6 @@ public class AbdAnnotationRepositoryConfigurationSource extends AnnotationReposi
     private final AnnotationMetadata configMetadata;
     private final AnnotationAttributes attributes;
     private final Environment environment;
-    private final BeanDefinitionRegistry registry; //XX
 
     AbdAnnotationRepositoryConfigurationSource(AnnotationMetadata metadata, Class<? extends Annotation> annotation,
                                                ResourceLoader resourceLoader, Environment environment,BeanDefinitionRegistry registry) {
@@ -32,13 +31,16 @@ public class AbdAnnotationRepositoryConfigurationSource extends AnnotationReposi
         this.attributes = new AnnotationAttributes(metadata.getAnnotationAttributes(annotation.getName()));
         this.configMetadata = metadata;
         this.environment = environment;
-        this.registry = registry;
     }
 
 
 
     @Override
     public Streamable<String> getBasePackages() {
+//        Set<String> packages = new HashSet<>();
+//        packages.add("cn.night.project");
+//        return Streamable.of(packages);
+
 
         String[] value = attributes.getStringArray("value");
         String[] basePackages = attributes.getStringArray(BASE_PACKAGES);
@@ -54,6 +56,8 @@ public class AbdAnnotationRepositoryConfigurationSource extends AnnotationReposi
         Set<String> packages = new HashSet<>();
         packages.addAll(Arrays.asList(value));
         packages.addAll(Arrays.asList(basePackages));
+
+        packages.add("cn.night.project.fuo.quickstart.jdbc.slave");
 
         Arrays.stream(basePackageClasses)//
                 .map(ClassUtils::getPackageName)//

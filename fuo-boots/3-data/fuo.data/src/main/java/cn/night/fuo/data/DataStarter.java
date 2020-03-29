@@ -1,11 +1,14 @@
 package cn.night.fuo.data;
 
+import cn.night.fuo.data.core.AbdJpaRepositoriesRegistrar;
 import cn.night.fuo.exception.check.FuoEnvironmentInitializeFailedException;
 import cn.night.fuo.spring.SpringContextHolder;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
@@ -14,12 +17,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-@Import(Config.class)
+@Import({AbdJpaRepositoriesRegistrar.class})
 public class DataStarter {
 
 //    @Autowired
 //    private PlatformTransactionManager platformTransactionManager;
 
+
+
+    @ConditionalOnMissingBean(DataEnvironment.class)
     @Bean(value = "cn.night.fuo.data.DataEnvironment")
     public DataEnvironment buildDataEnvironment() throws FuoEnvironmentInitializeFailedException , BeansException {
         DataEnvironment dataEnvironment = new DataEnvironment();

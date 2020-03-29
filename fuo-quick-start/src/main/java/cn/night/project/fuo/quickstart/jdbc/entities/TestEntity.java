@@ -1,4 +1,4 @@
-package cn.night.project.fuo.quickstart;
+package cn.night.project.fuo.quickstart.jdbc.entities;
 
 import cn.night.fuo.data.entities.DomainEntity;
 import lombok.Data;

@@ -10,7 +10,9 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.data.repository.config.*;
 import org.springframework.util.Assert;
 
-public class AbdRepositoryBeanDefinitionRegistrarSupport extends RepositoryBeanDefinitionRegistrarSupport
+import java.lang.annotation.Annotation;
+
+public abstract class AbdRepositoryBeanDefinitionRegistrarSupport extends RepositoryBeanDefinitionRegistrarSupport
         implements ImportBeanDefinitionRegistrar,ResourceLoaderAware, EnvironmentAware {
 
     private ResourceLoader resourceLoader;
@@ -29,28 +31,40 @@ public class AbdRepositoryBeanDefinitionRegistrarSupport extends RepositoryBeanD
     @Override
     public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
 
-        Assert.notNull(resourceLoader, "ResourceLoader must not be null!");
         Assert.notNull(annotationMetadata, "AnnotationMetadata must not be null!");
         Assert.notNull(registry, "BeanDefinitionRegistry must not be null!");
+        Assert.notNull(this.resourceLoader, "ResourceLoader must not be null!");
+        String a = this.getAnnotation().getName();
 
-        // Guard against calls for sub-classes
-        if (annotationMetadata.getAnnotationAttributes(getAnnotation().getName()) == null) {
-            return;
+        if (annotationMetadata.getAnnotationAttributes(this.getAnnotation().getName()) != null) {
+
+
+
+            //重构此处
+            AnnotationRepositoryConfigurationSource configurationSource = new AnnotationRepositoryConfigurationSource(
+                    annotationMetadata,this.getAnnotation(), this.resourceLoader, this.environment, registry);
+
+//            AbdAnnotationRepositoryConfigurationSource configurationSource = new AbdAnnotationRepositoryConfigurationSource(
+//                    annotationMetadata, getAnnotation(), resourceLoader, environment,registry);
+
+            RepositoryConfigurationExtension extension = this.getExtension();
+            RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
+            RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource,
+                    this.resourceLoader, this.environment);
+            delegate.registerRepositoriesIn(registry, extension);
         }
 
+
         // 使用自定义的AbdAnnotationRepositoryConfigurationSource
-        AbdAnnotationRepositoryConfigurationSource configurationSource = new AbdAnnotationRepositoryConfigurationSource(
-                annotationMetadata, getAnnotation(), resourceLoader, environment);
-
-        RepositoryConfigurationSource repositoryConfigurationSource = new RepositoryConfigurationSource();
-        repositoryConfigurationSource.
-
-        RepositoryConfigurationExtension extension = getExtension();
-        RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
-
-        RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, resourceLoader,
-                environment);
-
-        delegate.registerRepositoriesIn(registry, extension);
+//        AbdAnnotationRepositoryConfigurationSource configurationSource = new AbdAnnotationRepositoryConfigurationSource(
+//                annotationMetadata, getAnnotation(), resourceLoader, environment);
+//
+//        RepositoryConfigurationExtension extension = getExtension();
+//        RepositoryConfigurationUtils.exposeRegistration(extension, registry, configurationSource);
+//
+//        RepositoryConfigurationDelegate delegate = new RepositoryConfigurationDelegate(configurationSource, resourceLoader,
+//                environment);
+//
+//        delegate.registerRepositoriesIn(registry, extension);
     }
 }

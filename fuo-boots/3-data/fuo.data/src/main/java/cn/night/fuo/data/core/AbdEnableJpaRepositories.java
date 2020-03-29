@@ -3,6 +3,7 @@ package cn.night.fuo.data.core;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
 import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
 import org.springframework.data.repository.query.QueryLookupStrategy;
@@ -22,7 +23,7 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 @Import(AbdJpaRepositoriesRegistrar.class)
-public @interface AbdEnableJpaRepositories {
+public @interface AbdEnableJpaRepositories  {
     /**
      * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation declarations e.g.:
      * {@code @EnableJpaRepositories("org.my.pkg")} instead of {@code @EnableJpaRepositories(basePackages="org.my.pkg")}.
