@@ -1,6 +1,6 @@
-package cn.night.project.fuo.test.data;
+package cn.night.project.fuo.test.data.entities;
 
-import cn.night.fuo.data.entities.DomainEntity;
+import cn.night.fuo.persistent.jpa.entities.DomainEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;

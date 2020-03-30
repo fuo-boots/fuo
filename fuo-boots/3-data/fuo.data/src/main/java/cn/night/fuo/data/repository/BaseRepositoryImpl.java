@@ -13,8 +13,7 @@ class BaseRepositoryImpl<T, ID extends Serializable>
 
     private final EntityManager entityManager;
 
-    BaseRepositoryImpl(JpaEntityInformation entityInformation,
-                     EntityManager entityManager) {
+    BaseRepositoryImpl(JpaEntityInformation entityInformation, EntityManager entityManager) {
         super(entityInformation, entityManager);
 
         // Keep the EntityManager around to used from the newly introduced methods.

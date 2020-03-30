@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>cn.night</groupId>
-            <artifactId>fuo.data.jdbc</artifactId>
+            <artifactId>fuo.persistent.jpa</artifactId>
             <version>${fuo.version}</version>
         </dependency>
         <dependency>

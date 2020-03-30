@@ -14,6 +14,7 @@
         <module>3-data/fuo.data</module>
         <module>3-data/fuo.data.jdbc</module>
         <module>3-data/fuo.data.mongdb</module>
+        <module>4-persistent/fuo.persistent.jpa</module>
     </modules>
 
 

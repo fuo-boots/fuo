@@ -1,7 +1,7 @@
 package cn.night.project.fuo.test.data.jdbc;
 
-import cn.night.fuo.data.Config;
-import cn.night.project.fuo.test.data.TestEntity;
+import cn.night.fuo.persistent.jpa.repository.FuoRepository;
+import cn.night.project.fuo.test.data.entities.TestEntity;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,29 +14,29 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.util.Date;
-
 //SpringJUnit4ClassRunner
-@RunWith(SpringRunner.class)
-@SpringBootApplication(exclude = {
-        DataSourceAutoConfiguration.class,
-        HibernateJpaAutoConfiguration.class,
-        DataSourceTransactionManagerAutoConfiguration.class})
+//SpringRunner
+@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootApplication(exclude = {
+//        DataSourceAutoConfiguration.class,
+//        HibernateJpaAutoConfiguration.class,
+//        DataSourceTransactionManagerAutoConfiguration.class})
 //@ContextConfiguration(classes = Config.class)
 //@SpringBootApplication
-@EnableTransactionManagement
+//@EnableTransactionManagement
+@SpringBootApplication
 @SpringBootTest(classes = {JdbcTest.class})
 @ComponentScan(basePackages = {"cn.night.*"})
-@EntityScan(basePackages = "cn.night.project")
-@EnableJpaRepositories(considerNestedRepositories = false,
-        basePackages = {"cn.night.project"})
+//@EntityScan(basePackages = "cn.night.project")
+//@EnableJpaRepositories(considerNestedRepositories = false,
+//        basePackages = {"cn.night.project"})
 public class JdbcTest {
     @Autowired
-    private JdbcTestRepository repository;
+    private FuoRepository<TestEntity,Long> repository;
 
     @Test
     public void crud() {
