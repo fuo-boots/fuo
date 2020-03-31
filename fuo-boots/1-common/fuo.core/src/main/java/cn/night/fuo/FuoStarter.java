@@ -6,20 +6,26 @@ import cn.night.fuo.spring.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @Slf4j
 public class FuoStarter {
+
+    public FuoStarter() {
+
+    }
+
     @Autowired
     private ApplicationContext context;
 
     @Autowired
     private FuoConf conf;
 
-    @ConditionalOnMissingBean(name = "fuo.FuoEnvironment")
-    @Bean(value = "fuo.FuoEnvironment")
+    @ConditionalOnMissingBean(FuoEnvironment.class)
+    @Bean
     public FuoEnvironment getBean() throws FuoEnvironmentInitializeFailedException {
         try {
             log.debug("fuo environment initialize starting");

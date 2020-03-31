@@ -15,6 +15,8 @@
         <module>3-data/fuo.data.jdbc</module>
         <module>3-data/fuo.data.mongdb</module>
         <module>4-persistent/fuo.persistent.jpa</module>
+        <module>4-persistent/fuo.persistent.mybatis</module>
+        <module>4-persistent/fuo.persistent.common</module>
     </modules>
 
 
@@ -29,6 +31,8 @@
         <lombok.version>1.16.18</lombok.version>
         <fastjson.version>1.2.62</fastjson.version>
         <lang3.version>3.9</lang3.version>
+        <mybatis.version>3.5.4</mybatis.version>
+        <mybatis-spring.version>2.0.3</mybatis-spring.version>
     </properties>
 
     <dependencyManagement>
@@ -112,6 +116,16 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -6,7 +6,7 @@ import cn.night.fuo.serializer.SerializerEnvironment;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-@Component(value = "fuo.FuoEnvironment")
+//@Component(value = "cn.night.fuo.FuoEnvironment")
 @Getter
 public class FuoEnvironment implements FuoEnvironmentBuilder {
 

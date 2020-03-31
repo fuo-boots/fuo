@@ -27,8 +27,8 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories(considerNestedRepositories = false,
         repositoryFactoryBeanClass = FuoRepositoryFactoryBean.class,
-//        entityManagerFactoryRef = "entityManagerFactoryMaster",//配置连接工厂 entityManagerFactory
-//        transactionManagerRef = "transactionManagerMaster", //配置 事物管理器  transactionManager
+        entityManagerFactoryRef = "entityManagerFactoryMaster",//配置连接工厂 entityManagerFactory
+        transactionManagerRef = "transactionManagerMaster", //配置 事物管理器  transactionManager
         basePackages = "cn.night") //cn.night.fuo.data.repository
 public class Config {
 
@@ -41,6 +41,10 @@ public class Config {
     @Qualifier("master")
     private DataSource dataSource;
 
+    public Config(){
+
+    }
+
 //    public  void start(){
 //        QueryMethodEvaluationContextProvider evaluationContextProvider = new ExtensionAwareQueryMethodEvaluationContextProvider(
 //                applicationContext);
@@ -49,35 +53,35 @@ public class Config {
 //                FuoRepositoryImpl.class);
 //    }
 
-//    @ConditionalOnMissingBean(name = "entityManagerFactoryMaster")
-//    @Bean("entityManagerFactoryMaster") //  "entityManagerFactory"
-//    @Primary
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
-//
-//        final Properties hibernateProperties = new Properties();
-//        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-//        hibernateProperties.setProperty("hibernate.hbm2ddl.auto","update");
-//        hibernateProperties.setProperty("hibernate.show-sql","true");
-//
-//
-//        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-//        factoryBean.setDataSource(dataSource);
-////        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
-//        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//        factoryBean.setJpaProperties(hibernateProperties);
-//        factoryBean.setPackagesToScan("cn.night.project");
-//
-//        return factoryBean;
-//
-//    }
+    @ConditionalOnMissingBean(name = "entityManagerFactoryMaster")
+    @Bean("entityManagerFactoryMaster") //  "entityManagerFactory"
+    @Primary
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
 
-//    @ConditionalOnMissingBean(name = "transactionManagerMaster")
-//    @Bean("transactionManagerMaster")//
-//    @Primary
-//    public PlatformTransactionManager transactionManager() {
-////        return new JpaTransactionManager(factory);
-//        LocalContainerEntityManagerFactoryBean factoryBean = entityManagerFactoryBean();
-//        return new JpaTransactionManager(factoryBean.getObject());
-//    }
+        final Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto","update");
+        hibernateProperties.setProperty("hibernate.show-sql","true");
+
+
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSource);
+//        factoryBean.setPersistenceUnitRootLocation("simple-persistence");
+        factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        factoryBean.setJpaProperties(hibernateProperties);
+        factoryBean.setPackagesToScan("cn.night.project");
+
+        return factoryBean;
+
+    }
+
+    @ConditionalOnMissingBean(name = "transactionManagerMaster")
+    @Bean("transactionManagerMaster")//
+    @Primary
+    public PlatformTransactionManager transactionManager() {
+//        return new JpaTransactionManager(factory);
+        LocalContainerEntityManagerFactoryBean factoryBean = entityManagerFactoryBean();
+        return new JpaTransactionManager(factoryBean.getObject());
+    }
 
 }

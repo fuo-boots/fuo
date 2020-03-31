@@ -1,11 +1,9 @@
-package cn.night.project.fuo.test.data.entities;
+package cn.night.project.fuo.test.persistent.entities;
 
-import cn.night.fuo.persistent.jpa.entities.DomainEntity;
+import cn.night.fuo.persistent.common.entites.DomainEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
