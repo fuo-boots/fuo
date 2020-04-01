@@ -1,4 +1,4 @@
-package cn.night.fuo.persistent.mybatis_og;
-
-public class MybatisStarter {
-}
+//package cn.night.fuo.persistent.mybatis_og;
+//
+//public class MybatisStarter {
+//}

@@ -24,7 +24,7 @@
         <fuo.version>0.0.1-SNAPSHOT</fuo.version>
         <java.version>1.8</java.version>
         <java.encoding>UTF-8</java.encoding>
-        <spring.boot.version>2.1.3.RELEASE</spring.boot.version>
+        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
         <junit.version>4.12</junit.version>
         <yaml.version>1.24</yaml.version>
         <slf4j.version>1.7.26</slf4j.version>
@@ -33,6 +33,7 @@
         <lang3.version>3.9</lang3.version>
         <mybatis.version>3.5.4</mybatis.version>
         <mybatis-spring.version>2.0.3</mybatis-spring.version>
+        <jsqlparser.version>3.1</jsqlparser.version>
     </properties>
 
     <dependencyManagement>
@@ -126,6 +127,11 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-spring</artifactId>
                 <version>${mybatis-spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>${jsqlparser.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,5 +1,5 @@
-package cn.night.fuo.persistent.mybatis_og.builder;
-
-public class SqlSessionFactoryBuilder {
-
-}
+//package cn.night.fuo.persistent.mybatis_og.builder;
+//
+//public class SqlSessionFactoryBuilder {
+//
+//}

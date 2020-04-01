@@ -1,5 +1,6 @@
 package cn.night.fuo.persistent.mybatis.factories.object;
 
+import cn.night.fuo.persistent.common.data.PagedData;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.wrapper.BeanWrapper;
 import org.apache.ibatis.reflection.wrapper.ObjectWrapper;
@@ -32,8 +33,8 @@ public class MybatisObjectWrapperFactory implements ObjectWrapperFactory {
 
         @Override
         public <E> void addAll(List<E> element) {
-            if (page instanceof CommonPage && element instanceof CommonPageList) {
-                ((CommonPage) page).setPageList((CommonPageList) element);
+            if (page instanceof PagedData && element instanceof PagedDataList) {
+                ((PagedData) page).setPageList((CommonPageList) element);
             }
         }
     }

@@ -1,6 +1,7 @@
 package cn.night.fuo.persistent.mybatis.processor;
 
 import cn.night.fuo.persistent.mybatis.MybatisConfiguration;
+import cn.night.fuo.persistent.mybatis.interceptors.MybatisValidInterceptor;
 import cn.night.fuo.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;

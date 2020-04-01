@@ -1,5 +1,6 @@
 package cn.night.fuo.persistent.mybatis;
 
+import cn.night.fuo.persistent.mybatis.factories.mapper.MybatisMapperRegistry;
 import cn.night.fuo.persistent.mybatis.factories.object.MybatisObjectFactory;
 import cn.night.fuo.persistent.mybatis.factories.object.MybatisObjectWrapperFactory;
 import cn.night.fuo.persistent.mybatis.factories.reflector.MybatisReflectorFactory;
