@@ -1,7 +1,6 @@
 package cn.night.fuo.persistent.mybatis.processor;
 
 import cn.night.fuo.persistent.mybatis.MybatisConfiguration;
-import cn.night.fuo.persistent.mybatis.interceptors.MybatisValidInterceptor;
 import cn.night.fuo.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,14 +44,14 @@ public class MybatisBeanPostProcessor
         configuration.setMapUnderscoreToCamelCase(false);
         configuration.setLocalCacheScope(LocalCacheScope.SESSION);
         configuration.setJdbcTypeForNull(JdbcType.NULL);
-        configuration.addInterceptor(new MybatisValidInterceptor(properties));
-        configuration.addInterceptor(new MyBatisTraceInterceptor(applicationEventPublisher));
-        configuration.addInterceptor(new MybatisPageInterceptor());
-        configuration.getTypeHandlerRegistry().register(EnumValue.class, new EnumValueTypeHandler<>(EnumValue.class));
-        configuration.getTypeHandlerRegistry().register(CommonEntity.class, new JsonValueTypeHandler<>(CommonEntity.class));
-        configuration.getTypeHandlerRegistry().register(List.class, new JsonValueTypeHandler<>(List.class));
-        configuration.getTypeHandlerRegistry().register(Set.class, new JsonValueTypeHandler<>(Set.class));
-        configuration.getTypeHandlerRegistry().register(Map.class, new JsonValueTypeHandler<>(Map.class));
+//        configuration.addInterceptor(new MybatisValidInterceptor(properties));
+//        configuration.addInterceptor(new MyBatisTraceInterceptor(applicationEventPublisher));
+//        configuration.addInterceptor(new MybatisPageInterceptor());
+//        configuration.getTypeHandlerRegistry().register(EnumValue.class, new EnumValueTypeHandler<>(EnumValue.class));
+//        configuration.getTypeHandlerRegistry().register(CommonEntity.class, new JsonValueTypeHandler<>(CommonEntity.class));
+//        configuration.getTypeHandlerRegistry().register(List.class, new JsonValueTypeHandler<>(List.class));
+//        configuration.getTypeHandlerRegistry().register(Set.class, new JsonValueTypeHandler<>(Set.class));
+//        configuration.getTypeHandlerRegistry().register(Map.class, new JsonValueTypeHandler<>(Map.class));
         return configuration;
     }
 
@@ -108,23 +107,23 @@ public class MybatisBeanPostProcessor
     }
 
     private void filterResultMapping(ResultMapBinding binding) {
-        String propertyName = binding.getResultMapping().getProperty();
-        Field propertyField = Utils.clazz.getPropertyField(propertyName, binding.getResultMap().getType());
-        if (propertyField == null
-                || !(binding.getResultMapping().getTypeHandler() instanceof JsonValueTypeHandler)
-                || !(binding.getResultMapping().getTypeHandler() instanceof EnumValueTypeHandler)) {
-            return;
-        }
-        Class<?> propertyClass = propertyField.getType();
-        if (CommonEntity.class.isAssignableFrom(propertyClass)
-                || List.class.isAssignableFrom(propertyClass)
-                || Set.class.isAssignableFrom(propertyClass)
-                || Map.class.isAssignableFrom(propertyClass)) {
-            ClassUtil.setPropertyValue(binding.getResultMapping(), TYPE_HANDLER, new JsonValueTypeHandler(propertyField.getGenericType()));
-        }
-        if (EnumValue.class.isAssignableFrom(propertyClass)) {
-            ClassUtil.setPropertyValue(binding.getResultMapping(), TYPE_HANDLER, new EnumValueTypeHandler(propertyField.getType()));
-        }
+//        String propertyName = binding.getResultMapping().getProperty();
+//        Field propertyField = Utils.clazz.getPropertyField(propertyName, binding.getResultMap().getType());
+//        if (propertyField == null
+//                || !(binding.getResultMapping().getTypeHandler() instanceof JsonValueTypeHandler)
+//                || !(binding.getResultMapping().getTypeHandler() instanceof EnumValueTypeHandler)) {
+//            return;
+//        }
+//        Class<?> propertyClass = propertyField.getType();
+//        if (CommonEntity.class.isAssignableFrom(propertyClass)
+//                || List.class.isAssignableFrom(propertyClass)
+//                || Set.class.isAssignableFrom(propertyClass)
+//                || Map.class.isAssignableFrom(propertyClass)) {
+//            ClassUtil.setPropertyValue(binding.getResultMapping(), TYPE_HANDLER, new JsonValueTypeHandler(propertyField.getGenericType()));
+//        }
+//        if (EnumValue.class.isAssignableFrom(propertyClass)) {
+//            ClassUtil.setPropertyValue(binding.getResultMapping(), TYPE_HANDLER, new EnumValueTypeHandler(propertyField.getType()));
+//        }
     }
 
 

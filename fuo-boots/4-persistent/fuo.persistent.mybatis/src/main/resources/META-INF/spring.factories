@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.night.fuo.persistent.mybatis_og.MybatisAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=cn.night.fuo.persistent.mybatis.MybatisConfig

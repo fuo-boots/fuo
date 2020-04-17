@@ -1,4 +1,4 @@
 package cn.night.fuo.enums;
 
-public enum TestExtendEnums implements FuoExtendEnums {
-}
+//public enum TestExtendEnums implements FuoExtendEnums {
+//}

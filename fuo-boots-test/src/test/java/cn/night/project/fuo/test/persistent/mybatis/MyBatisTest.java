@@ -1,6 +1,7 @@
 package cn.night.project.fuo.test.persistent.mybatis;
 
 //import cn.night.project.fuo.test.persistent.entities.TestEntity;
+import cn.night.fuo.persistent.mybatis.MybatisConfig;
 import cn.night.project.fuo.test.common.serializer.SerializerTest;
 import cn.night.project.fuo.test.persistent.entities.TestEntity;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -16,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @org.mybatis.spring.annotation.MapperScan("cn.night")
 @SpringBootApplication
 @SpringBootTest(classes = {MyBatisTest.class})
+@Import(value = {MybatisConfig.class})
 public class MyBatisTest {
 
     @Autowired
